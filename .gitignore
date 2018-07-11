@@ -1,0 +1,6 @@
+node_modules/
+etc/config.live
+web3.js-0.20.60/
+test.js
+.node*
+

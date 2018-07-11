@@ -1,0 +1,36 @@
+{
+    "mongodb":
+    {
+        "host": "localhost",
+        "port": "27017",
+        "user": "sync",
+        "password": "<password>",
+        "authenticationDatabase": "admin",
+        "dbsync": "sync"
+    },
+    "web3js":
+    {
+        "nodeAddr": "localhost",
+        "port": 8545
+
+    },
+    "sync":
+    {
+        "startBlock": 0,
+        "quiet": true,
+        "syncAll": true  ,
+        "recoveryIgnoreBlock"  : true , 
+        "recoveryMissingBlock": true ,
+        "monitor" :  true,
+        "patchBlocks": 100,
+        "pageSize" :  500 ,
+        "bulkSize": 100 
+    },
+    "settings":
+    {
+        "symbol": "GOVBLOCKs",
+        "name": "GOVBLOCKs Blockchain",
+        "title": "GOVBLOCKs Blockchain"
+
+    }
+}
