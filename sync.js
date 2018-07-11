@@ -199,7 +199,7 @@ var recoveryIgnoreBlockToDB = function(config, lowBlock, oldMaxPage, lastMaxBloc
         });
         var newMaxpage = oldMaxPage - config.pageSize;
         setTimeout(function() { recoveryIgnoreBlockToDB(config, lowBlock, newMaxpage, oldMaxPage); }, 2000);
-        //setTimeout(function() { recoveryIgnoreBlockToDB(config, nextBlock); }, 500);
+      
     } else {
         //   console.log('Error: Web3 connection time out trying to get block ' + nextBlock + ' retrying connection now');
         //   recoveryIgnoreBlockToDB(config);
@@ -324,129 +324,7 @@ var checkBlockDBExistsThenWrite = function(config, patchData, flush) {
 
 */
 
-// var reEntryIgnoreIndsertBlock = function(config, listMissingBlock, pagenmuber) {
-//     if (!web3 || !web3.isConnected()) {
-//         console.log('Error: Web3 is not connected. Retrying connection shortly...');
-//         setTimeout(function() { MissingBlockReEntry(SyncOptions); }, 3000);
-//         return;
-//     }
 
-//     if (typeof listMissingBlock === 'undefined' || typeof pagenmuber === 'undefined') {
-//         // get the last saved block
-//         var dbBlockcount = Blocker.count();
-//         var pageCount = Math.round(dbBlockcount / config.pageSize)
-//         var leftPage = 0;
-//         if (dbBlockcount % config.pageSize > 0) {
-//             pageCount = pageCount + 1
-//         }
-//         dbBlockcount.exec(function(counterr, countdocs) {
-//             if (!counterr) {
-//                 console.log(" Count total blocks int DB :   " + countdocs);
-//                 var MaxBlockInDB = Blocker.find({}, "number").lean(true).sort('-number').limit(1); // Find DB was wroted max number 
-//                 var LowestBlockInDB = Blocker.find({}, "number").lean(true).sort('number').limit(1);
-//                 //console.log(util.inspect(MaxBlockInDB, false, null)) ; 
-//                 LowestBlockInDB.exec(function(lowerr, lowdocs) {
-//                     MaxBlockInDB.exec(function(maxerr, maxdocs) {
-//                         //   console.log("====== Sort Blocknumber from DB ====");
-//                         //  console.log(docs);
-//                         if (maxerr || !maxdocs || maxdocs.length < 1) {
-//                             // no blocks found. terminate MissingBlockReEntry()
-//                             console.log('No need to patch blocks.');
-//                             return;
-//                         }
-//                         var latestBlockNumberInDB = maxdocs[0].number;
-//                         // var currentBlock = web3.eth.blockNumber;
-//                         // reEntryIgnoreIndsertBlock(config, latestBlockNumberInDB, currentBlock); // Current block write by other function
-//                         // console.log(docs);
-//                         if (lowerr || !lowdocs || lowdocs.length < 1) {
-//                             // no blocks found. terminate MissingBlockReEntry()
-//                             console.log('No need to patch blocks.');
-//                             return;
-//                         }
-//                         var oldestblockInDB = lowdocs[0].number;
-
-//                         // var currentBlock = web3.eth.blockNumber;
-//                         //  reEntryIgnoreIndsertBlock(config, latestBlockNumberInDB, currentBlock); // Current block write by other function
-//                         var totalBlocks = latestBlockNumberInDB - oldestblockInDB;
-
-//                         console.log(" Hightest block : " + latestBlockNumberInDB + " Oldest block : " + oldestblockInDB + " Diff : " +
-//                             totalBlocks +
-//                             " lost between block : " + (totalBlocks - countdocs)
-//                         );
-//                         var dataWasIgnore = [];
-//                         // for (var i = oldestblockInDB; i < latestBlockNumberInDB; i++) {
-//                         // Blocker.find({ number: 278519 }, function(err, b) {
-//                         var countChk = -1;
-//                         Blocker.find({}, "number", function(err, docs) {
-//                             countChk = docs.length;
-//                             console.log("   DATA LENGTH  :  " + countChk);
-
-//                             var lostNum = [];
-//                             for (var i = 1; i < docs.length; i++) {
-//                                 if (docs[i].number - docs[i - 1].number != 1) {
-//                                     var x = docs[i].number - docs[i - 1].number;
-//                                     var j = 1;
-//                                     while (j < x) {
-//                                         lostNum.push(docs[i - 1].number + j);
-//                                         j++;
-//                                     }
-//                                 }
-//                             }
-//                             console.log(lostNum);
-//                             reEntryIgnoreIndsertBlock(config, lostNum);
-
-//                         }).lean(true).sort('number').limit(1000);
-
-//                     });
-//                 });
-//             } // COUNT BLOCK END IF 
-//         });
-
-//         return;
-//     }
-
-//     var missingBlocks = listMissingBlock.length;
-//     if (missingBlocks > 0) {
-//         console.log('Adding ignore block from # ' + listMissingBlock[0] + " To : " + listMissingBlock[missingBlocks - 1] + " Total  ignore blocks : " + (missingBlocks));
-//         var patchBlock = listMissingBlock;
-//         var count = 0;
-
-//         if (!('quiet' in config && config.quiet === true)) {
-//             console.log('Patching Block: ' + patchBlock[count]);
-//         }
-//         web3.eth.getBlock(patchBlock[count], true, function(error, patchData) {
-//             if (error) {
-//                 console.log('Warning: error on getting block with hash/number: ' + patchBlock[count] + ': ' + error);
-//             } else if (patchData == null) {
-//                 console.log('Warning: null block data received from the block with hash/number: ' + patchBlock[count]);
-//             } else {
-//                 checkBlockDBExistsThenWrite(config, patchData)
-//             }
-//         });
-//         //patchBlock++;
-//         //console.log("patching ignore block count : " + count)
-//         //count++;
-
-//         // flush
-//         syncBlockToDB(config, null, true);
-//         syncTransactionToDB(config, null, true);
-//         var RemainBlocks = patchBlock.splice(0, 1)
-//         missingBlocks = patchBlock.length;
-//         var nextBlock =
-//             setTimeout(function() { reEntryIgnoreIndsertBlock(config, RemainBlocks, nextBlock); }, 500);
-//     } else {
-//         // flush
-//         setTimeout(function() { reEntryIgnoreIndsertBlock(config); }, 2000);
-//         // syncBlockToDB(SyncOptions, null, true);
-//         // syncTransactionToDB(SyncOptions, null, true);
-//         console.log('***  Block was ignore recovery Completed ***');
-//     }
-// }
-
-/*
-
-
-*/
 
 var MissingBlockReEntry = function(config, startBlock, endBlock) {
     if (!web3 || !web3.isConnected()) {
@@ -534,4 +412,3 @@ if (SyncOptions.syncAll === true) {
     fullSyncChain(SyncOptions);
 }
 
-//console.log()
