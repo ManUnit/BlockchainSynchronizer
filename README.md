@@ -1,2 +1,4 @@
 # BlockchainSynchronizer
-Ethereum Synchonizer to noSql Database  / improved from  Ethereumproject/Explorer
+Ethereum Synchonizer to noSql Database  
+
+https://i.imgur.com/yirj4QJ.jpg 
